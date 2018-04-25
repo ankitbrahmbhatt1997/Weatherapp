@@ -47,7 +47,7 @@ app.post("/", (req, res) => {
       if (response.data.status === "ZERO_RESULTS") {
         throw new Error("Unable to find the address");
       }
-      console.log(response.data.results[0].formatted_address);
+
       let lat = response.data.results[0].geometry.location.lat;
       let lng = response.data.results[0].geometry.location.lng;
       res.locals.location = response.data.results[0].formatted_address;
@@ -64,13 +64,12 @@ app.post("/", (req, res) => {
       let dewPoint = `Dewpoint : ${response.data.currently.dewPoint}`;
       let wind = `Wind:${response.data.currently.windSpeed}`;
       let summary = response.data.currently.summary;
-      console.log(location);
-      res.render("form", {
-        address,
+      let location = res.locals.location;
+      res.send({
         temp,
         apptemp,
         humidity,
-
+        location,
         dewPoint,
         wind,
         summary
